@@ -40,16 +40,20 @@ class App {
         this.raycaster = new THREE.Raycaster();
         this.imageClicked = false;
         this.loadingBar = new LoadingBar();
+        this.mc = new Hammer(container);
         this.init();
         
         this.controls = new OrbitControls( this.camera, this.renderer.domElement );
         this.controls.target.set(0, 0, 0);
         this.controls.update();
 
-        
+        this.mc.on("pinch", function(e) {
+            console.log(e.type)
+        });
         window.addEventListener('resize', this.resize.bind(this) );
         document.addEventListener("mousemove", this.onMouseMove, false)
-        document.addEventListener("click", this.onMouseClick, false)
+        document.addEventListener("click", this.onMouseClick, false);
+        window.addEventListener("keydown", this.onKeyDown.bind(this), false);
 
 	}	
 
@@ -59,6 +63,23 @@ class App {
         this.camera.updateProjectionMatrix();
         this.renderer.setSize( window.innerWidth, window.innerHeight );  
     }
+
+
+    onKeyDown(e){
+        
+            // this.controls.enabled = false;
+            // this.controls.enablePan = false
+            if(e.key == 'f') {
+                this.scene.getObjectByName('image').position.z -= 0.4;
+            }
+            else if(e.key == 'n') {
+                this.scene.getObjectByName('image').position.z += 0.4;
+            
+                
+        }
+
+
+    }
     
     init(){
         const axesHelper = new THREE.AxesHelper( 5 );
@@ -67,6 +88,7 @@ class App {
         this.loadImage();
 
         
+
 
     }
 
@@ -83,13 +105,10 @@ class App {
                     0 );
                     
                     vec.unproject( this.camera );
-                    
                     vec.sub( this.camera.position ).normalize();
-                    
                     var distance = - this.camera.position.z / vec.z;
-                    
                     pos.copy( this.camera.position ).add( vec.multiplyScalar( distance ) );
-                    this.scene.getObjectByName('image').position.set(pos.x,pos.y,pos.z)
+                    this.scene.getObjectByName('image').position.set(pos.x,pos.y,this.scene.getObjectByName('image').position.z)
                     
             } 
     } 
