@@ -78,9 +78,9 @@ class App {
         this.renderer.setSize( window.innerWidth, window.innerHeight );  
     }
 
-    handleScroll(e){
+    handleScroll(){
         this.controls.enabled = false;
-        console.log(e)
+        // console.log(e)
         var lastScrollTop = 0;
         var st = window.pageYOffset || document.documentElement.scrollTop; 
         if (st > lastScrollTop){
