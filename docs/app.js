@@ -83,7 +83,7 @@ class App {
         let controller, controller1;
         
         function onSessionStart(){
-            self.castle.position.set(0,0,-20)
+            self.castle.position.set(0,-3,-10)
             // self.camera.add( self.image );
         }
         
@@ -94,60 +94,57 @@ class App {
         const btn = new ARButton( this.renderer, { onSessionStart, onSessionEnd });//, sessionInit: { optionalFeatures: [ 'dom-overlay' ], domOverlay: { root: document.body } } } );
         
         this.gestures = new ControllerGestures( this.renderer );
-        this.gestures.addEventListener( 'tap', (e)=>{
-            // //console.log( 'tap' ); 
-            // self.ui.updateElement('info', 'tap' );
-            // if (!self.knight.object.visible){
-            //     self.knight.object.visible = true;
-            //     self.knight.object.position.set( 0, -0.3, -0.5 ).add( ev.position );
-            //     self.scene.add( self.knight.object ); 
-            // }
-        });
-        this.gestures.addEventListener( 'doubletap', (ev)=>{
-            console.log( 'doubletap'); 
-            // self.ui.updateElement('info', 'doubletap' );
-        });
-        this.gestures.addEventListener( 'press', (ev)=>{
-            console.log( 'press' );    
-            // self.ui.updateElement('info', 'press' );
-        });
+        // this.gestures.addEventListener( 'tap', (e)=>{
+        //     // //console.log( 'tap' ); 
+        //     // self.ui.updateElement('info', 'tap' );
+        //     // if (!self.knight.object.visible){
+        //     //     self.knight.object.visible = true;
+        //     //     self.knight.object.position.set( 0, -0.3, -0.5 ).add( ev.position );
+        //     //     self.scene.add( self.knight.object ); 
+        //     // }
+        // });
+        // this.gestures.addEventListener( 'doubletap', (ev)=>{
+        //     console.log( 'doubletap'); 
+        //     // self.ui.updateElement('info', 'doubletap' );
+        // });
+        // this.gestures.addEventListener( 'press', (ev)=>{
+        //     console.log( 'press' );    
+        //     // self.ui.updateElement('info', 'press' );
+        // });
         this.gestures.addEventListener( 'pan', (ev)=>{
             console.log( ev );
-            // if (ev.initialise !== undefined){
-            //     self.startPosition = self.knight.object.position.clone();
-            // }else{
-            //     const pos = self.startPosition.clone().add( ev.delta.multiplyScalar(3) );
-            //     self.knight.object.position.copy( pos );
-            //     self.ui.updateElement('info', `pan x:${ev.delta.x.toFixed(3)}, y:${ev.delta.y.toFixed(3)}, x:${ev.delta.z.toFixed(3)}` );
-            // } 
+            if (ev.initialise !== undefined){
+                self.startPosition = self.image.position.clone();
+            }else{
+                const pos = self.startPosition.clone().add( ev.delta.multiplyScalar(3) );
+                self.image.position.copy( pos );
+            } 
         });
-        this.gestures.addEventListener( 'swipe', (ev)=>{
-            console.log( ev );   
-            // self.ui.updateElement('info', `swipe ${ev.direction}` );
-            // if (self.knight.object.visible){
-            //     self.knight.object.visible = false;
-            //     self.scene.remove( self.knight.object ); 
-            // }
-        });
+        // this.gestures.addEventListener( 'swipe', (ev)=>{
+        //     console.log( ev );   
+        //     // self.ui.updateElement('info', `swipe ${ev.direction}` );
+        //     // if (self.knight.object.visible){
+        //     //     self.knight.object.visible = false;
+        //     //     self.scene.remove( self.knight.object ); 
+        //     // }
+        // });
         this.gestures.addEventListener( 'pinch', (ev)=>{
-            console.log( ev );  
-            // if (ev.initialise !== undefined){
-            //     self.startScale = self.knight.object.scale.clone();
-            // }else{
-            //     const scale = self.startScale.clone().multiplyScalar(ev.scale);
-            //     self.knight.object.scale.copy( scale );
-            //     self.ui.updateElement('info', `pinch delta:${ev.delta.toFixed(3)} scale:${ev.scale.toFixed(2)}` );
-            // }
+            //console.log( ev );  
+            if (ev.initialise !== undefined){
+                self.startScale = self.image.scale.clone();
+            }else{
+                const scale = self.startScale.clone().multiplyScalar(ev.scale);
+                self.image.scale.copy( scale );
+            }
         });
         this.gestures.addEventListener( 'rotate', (ev)=>{
-                 console.log( ev ); 
-            // if (ev.initialise !== undefined){
-            //     self.startQuaternion = self.knight.object.quaternion.clone();
-            // }else{
-            //     self.knight.object.quaternion.copy( self.startQuaternion );
-            //     self.knight.object.rotateY( ev.theta );
-            //     self.ui.updateElement('info', `rotate ${ev.theta.toFixed(3)}`  );
-            // }
+            //      sconsole.log( ev ); 
+            if (ev.initialise !== undefined){
+                self.startQuaternion = self.image.quaternion.clone();
+            }else{
+                self.image.quaternion.copy( self.startQuaternion );
+                self.image.material.rotation( ev.theta );
+            }
         });
         
         this.renderer.setAnimationLoop( this.render.bind(this) );
