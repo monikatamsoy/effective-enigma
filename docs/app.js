@@ -278,7 +278,7 @@ class App {
         const material = new THREE.SpriteMaterial( { map: map } );
 
         this.image = new THREE.Sprite( material );
-        this.image.position.set(3,-1,1)
+        this.image.position.set(2,-2,1)
         this.image.name = "image"
         this.scene.add( this.image );
     }
