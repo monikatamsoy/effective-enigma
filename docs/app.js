@@ -97,7 +97,7 @@ class App {
     handleMove(e) {
         this.controls.enabled = false;
         console.log(e);
-        if(e.targetTouches.Touchlist/length == 1) {
+        if(e.targetTouches.Touchlist.length == 1) {
 
             var vec = new THREE.Vector3(); // create once and reuse
             var pos = new THREE.Vector3(); // create once and reuse
@@ -117,7 +117,7 @@ class App {
             this.image.position.set(pos.x,pos.y,pos.z);
     
             console.log(pos)
-        } else if(e.targetTouches.Touchlist/length == 2) {
+        } else if(e.targetTouches.Touchlist.length == 2) {
             var lastScrollTop = 0;
             var st = window.pageYOffset || document.documentElement.scrollTop; 
             if (st > lastScrollTop){
@@ -131,6 +131,7 @@ class App {
             }
             lastScrollTop = st <= 0 ? 0 : st;
             }
+            this.controls.enabled = true;
             }
     setupXR(){
         this.renderer.xr.enabled = true; 
