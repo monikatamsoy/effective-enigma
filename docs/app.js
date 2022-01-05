@@ -83,7 +83,7 @@ class App {
         let controller, controller1;
         
         function onSessionStart(){
-            self.castle.position.set(0,-3,-10)
+            self.castle.position.set(0,-3,-15)
             // self.camera.add( self.image );
         }
         
@@ -143,7 +143,7 @@ class App {
                 self.startQuaternion = self.image.quaternion.clone();
             }else{
                 self.image.quaternion.copy( self.startQuaternion );
-                self.image.material.rotation( ev.theta );
+                self.image.material.rotation = ev.theta;
             }
         });
         
