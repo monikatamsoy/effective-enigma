@@ -83,7 +83,7 @@ class App {
         let controller, controller1;
         
         function onSessionStart(){
-            self.castle.position.set(0,0,-15)
+            self.castle.position.set(0,-1,-15)
             // self.camera.add( self.image );
         }
         
@@ -116,7 +116,7 @@ class App {
             if (ev.initialise !== undefined){
                 self.startPosition = self.image.position.clone();
             }else{
-                const pos = self.startPosition.clone().add( ev.delta.multiplyScalar(5) );
+                const pos = self.startPosition.clone().add( ev.delta.multiplyScalar(8) );
                 self.image.position.copy( pos );
             } 
         });
