@@ -109,7 +109,7 @@ class App {
             }
 
     onKeyDown(e){
-        
+            console.log(e)
             // this.controls.enabled = false;
             // this.controls.enablePan = false
             if(e.key == 'f') {
@@ -119,11 +119,12 @@ class App {
             }
             else if(e.key == 'n') {
                 this.scene.getObjectByName('image').position.z += 0.4;
-                this.scene.getObjectByName('image').updateMatrix();
-
-            
-                
-        }
+                this.scene.getObjectByName('image').updateMatrix();          
+        } else if(e.key == '0') {
+            this.scene.getObjectByName('image').material.rotation += 0.1;
+        } else if(e.key == '1') {
+            this.scene.getObjectByName('image').material.rotation -= 0.1;
+        } 
 
 
     }
