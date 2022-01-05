@@ -128,12 +128,27 @@ class App {
 
 
     }
+
+    addDatGUI() {
+        this.gui = new dat.GUI();
+        var opacityFolder = this.gui.addFolder("Opacity");
+        opacityFolder.add(this.scene.getObjectByName('image').material,'opacity',0,1);
+
+        var scaleFolder = this.gui.addFolder("Scale");
+        scaleFolder.add(this.scene.getObjectByName('image').scale,'x',1,4);
+        scaleFolder.add(this.scene.getObjectByName('image').scale,'y',1,4);
+
+        var rotationFolder = this.gui.addFolder("Rotation");
+        rotationFolder.add(this.scene.getObjectByName('image').material,'rotation',0,Math.PI*2);
+        // opacityFolder.open()
+    }
     
     init(){
         const axesHelper = new THREE.AxesHelper( 5 );
         this.scene.add( axesHelper );  
         this.loadCastle();
         this.loadImage();
+        this.addDatGUI();
     }
 
     onMouseMove = (e) => {
