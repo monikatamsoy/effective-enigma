@@ -64,7 +64,7 @@ class App {
         window.addEventListener('resize', this.resize.bind(this) );
         document.addEventListener("mousemove", this.onMouseMove, false)
         document.addEventListener("wheel", this.onWheel.bind(this), false)
-
+        document.addEventListener("touchmove",this.handleMove.bind(this),false)
         document.addEventListener("click", this.onMouseClick, false);
         window.addEventListener("keydown", this.onKeyDown.bind(this), false);
 
@@ -76,6 +76,10 @@ class App {
         this.camera.updateProjectionMatrix();
         this.renderer.setSize( window.innerWidth, window.innerHeight );  
     }
+
+    handleMove(e) {
+        console.log(e)
+    }
     setupXR(){
         this.renderer.xr.enabled = true; 
         
@@ -84,7 +88,7 @@ class App {
         
         function onSessionStart(){
             self.castle.position.set(0,-1,-15);
-            self.image.position.set(5,0,-3)
+            self.image.position.set(3,0,1)
             // self.camera.add( self.image );
         }
         
@@ -258,7 +262,7 @@ class App {
         const material = new THREE.SpriteMaterial( { map: map } );
 
         this.image = new THREE.Sprite( material );
-        this.image.position.set(5,-1,0)
+        this.image.position.set(3,-1,1)
         this.image.name = "image"
         this.scene.add( this.image );
     }
