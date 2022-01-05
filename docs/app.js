@@ -84,7 +84,7 @@ class App {
         
         function onSessionStart(){
             self.castle.position.set(0,-1,-15);
-            self.image.position.set(4,0,-16)
+            self.image.position.set(5,0,-5)
             // self.camera.add( self.image );
         }
         
