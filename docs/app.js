@@ -78,6 +78,7 @@ class App {
     }
 
     handleMove(e) {
+        this.controls.enabled = false;
         console.log(e);
         var vec = new THREE.Vector3(); // create once and reuse
         var pos = new THREE.Vector3(); // create once and reuse
