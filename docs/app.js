@@ -83,9 +83,7 @@ class App {
         let controller, controller1;
         
         function onSessionStart(){
-            self.camera.position.set(0,0,10)
-            console.log(self.image)
-            console.log(self.castle)
+            self.castle.position.set(0,0,-20)
             // self.camera.add( self.image );
         }
         
@@ -142,7 +140,7 @@ class App {
             // }
         });
         this.gestures.addEventListener( 'rotate', (ev)=>{
-                 sconsole.log( ev ); 
+                 console.log( ev ); 
             // if (ev.initialise !== undefined){
             //     self.startQuaternion = self.knight.object.quaternion.clone();
             // }else{
