@@ -44,7 +44,7 @@ class App {
         
         this.controls = new OrbitControls( this.camera, this.renderer.domElement );
         this.controls.target.set(0, 0, 0);
-        this.controls.maxDistance = 100;
+        this.controls.maxDistance = 10;
         this.controls.minDistance = 5;
         this.controls.minPolarAngle = 0; // radians
         this.controls.maxPolarAngle = Math.PI/2; // radians
@@ -70,19 +70,10 @@ class App {
     onWheel(e) {
         if(this.imageClicked == true) {
             this.controls.enableZoom = false;
-            console.log(e);
             let scale = 1;
-            // This is crucial. Without it, the browser will do a full page zoom
-            // e.preventDefault();
-    
-            // This is an empirically determined heuristic.
-            // Unfortunately I don't know of any way to do this better.
-            // Typical deltaY values from a trackpad pinch are under 1.0
-            // Typical deltaY values from a mouse wheel are more than 100.
             let isPinch = Math.abs(e.deltaY) < 50;
     
             if (isPinch) {
-                this.scene.getObjectByName('image').matrixAutoUpdate = false;
 
                 // scale += e.deltaY*2 * -0.05;
                 let factor = 1 - 1 * e.deltaY;
@@ -91,35 +82,27 @@ class App {
                 // Restrict scale
                 scale = Math.min(Math.max(.125, scale), 8);
                 this.scene.getObjectByName('image').scale.set(scale,scale,scale)
-                this.scene.getObjectByName('image').updateMatrix();
-                this.scene.getObjectByName('image').updateMatrixWorld();
-
+            }
                 
                 // this.scene.getObjectByName('image').scale(scale,scale,scale)
-            } else {
-                // This is a mouse wheel
-                let strength = 1.4;
-                let factor = e.deltaY < 0 ? strength : 1.0 / strength;
-                scale *= factor;
-                console.log("mouse wheel")
-              }
+            // } else {
+            //     // This is a mouse wheel
+            //     let strength = 1.4;
+            //     let factor = e.deltaY < 0 ? strength : 1.0 / strength;
+            //     scale *= factor;
+            //   }
         }
-        console.log(e)
 
             }
 
     onKeyDown(e){
-            console.log(e)
-            // this.controls.enabled = false;
-            // this.controls.enablePan = false
+            
             if(e.key == 'f') {
                 this.scene.getObjectByName('image').position.z -= 0.4;
-                this.scene.getObjectByName('image').updateMatrix();
 
             }
             else if(e.key == 'n') {
                 this.scene.getObjectByName('image').position.z += 0.4;
-                this.scene.getObjectByName('image').updateMatrix();          
         } else if(e.key == '0') {
             this.scene.getObjectByName('image').material.rotation += 0.1;
         } else if(e.key == '1') {
@@ -136,27 +119,44 @@ class App {
 
         var scaleFolder = this.gui.addFolder("Scale");
         scaleFolder.add(this.scene.getObjectByName('image').scale,'x',1,4);
+
         scaleFolder.add(this.scene.getObjectByName('image').scale,'y',1,4);
+
+        this.scene.getObjectByName('image').updateMatrix();
 
         var rotationFolder = this.gui.addFolder("Rotation");
         rotationFolder.add(this.scene.getObjectByName('image').material,'rotation',0,Math.PI*2);
-        // opacityFolder.open()
+    }
+
+    loadBackground = () => {
+        // Load the images used in the background.
+        var path = "assets/cubemap/mountains/";
+        
+    
+        let urls = [
+            path + 'posx.jpg',path + 'negx.jpg',
+            path +'posy.jpg', path +'negy.jpg',
+            path +'posz.jpg', path +'negz.jpg',
+          ];
+        var reflectionCube = new THREE.CubeTextureLoader().load(urls);
+        reflectionCube.format = THREE.RGBFormat;
+        this.scene.background = reflectionCube;
     }
     
     init(){
-        const axesHelper = new THREE.AxesHelper( 5 );
-        this.scene.add( axesHelper );  
+        // const axesHelper = new THREE.AxesHelper( 5 );
+        // this.scene.add( axesHelper );  
         this.loadCastle();
         this.loadImage();
         this.addDatGUI();
+        this.loadBackground();
     }
 
     onMouseMove = (e) => {
             if (this.imageClicked == true )
             {   
-                // this.scene.getObjectByName('image').position.x = this.mouse.x;
-                var vec = new THREE.Vector3(); // create once and reuse
-                var pos = new THREE.Vector3(); // create once and reuse
+                var vec = new THREE.Vector3();
+                var pos = new THREE.Vector3();
                 
                 vec.set(
                     ( e.clientX / window.innerWidth ) * 2 - 1,
@@ -172,7 +172,6 @@ class App {
                     console.log(this.scene.getObjectByName('image').position)
                     
             }
-            console.log("mousemove",this.imageClicked)
  
     } 
     onMouseClick = (e) => {
@@ -182,13 +181,11 @@ class App {
         this.mouse.x = ( e.clientX / window.innerWidth ) * 2 - 1;
         this.mouse.y = - ( e.clientY / window.innerHeight ) * 2 + 1;
         
-        // console.log(mouse)
         this.raycaster.setFromCamera( this.mouse, this.camera );
 
         var intersects = this.raycaster.intersectObject( this.scene.getObjectByName('image'));
         if (intersects[0] )
         {   
-            console.log("mouseClick",this.imageClicked)
             this.imageClicked = !this.imageClicked
         } 
          
@@ -216,14 +213,7 @@ class App {
 			'castle.glb',
 			// called when the resource is loaded
 			function ( gltf ) {
-                const bbox = new THREE.Box3().setFromObject( gltf.scene );
-                // console.log(`min:${bbox.min.x.toFixed(2)},${bbox.min.y.toFixed(2)},${bbox.min.z.toFixed(2)} -  max:${bbox.max.x.toFixed(2)},${bbox.max.y.toFixed(2)},${bbox.max.z.toFixed(2)}`);
                 
-                // gltf.scene.traverse( ( child ) => {
-                //     if (child.isMesh){
-                //         child.material.metalness = 0.2;
-                //     }
-                // })
                 gltf.scene.name = 'castle'    
                 self.castle = gltf.scene;
                 self.castle.rotateY(Math.PI/2)
