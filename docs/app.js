@@ -2,6 +2,8 @@ import * as THREE from './libs/three/three.module.js';
 import { GLTFLoader } from './libs/three/jsm/GLTFLoader.js';
 import { LoadingBar } from './libs/LoadingBar.js';
 import { OrbitControls } from './libs/three/jsm/OrbitControls.js';
+import { ARButton } from './libs/ARButton.js';
+import { ControllerGestures } from './libs/ControllerGestures.js';
 
 
 
@@ -81,10 +83,10 @@ class App {
 
                 // Restrict scale
                 scale = Math.min(Math.max(.125, scale), 8);
-                this.scene.getObjectByName('image').scale.set(scale,scale,scale)
+                this.image.scale.set(scale,scale,scale)
             }
                 
-                // this.scene.getObjectByName('image').scale(scale,scale,scale)
+                // this.image.scale(scale,scale,scale)
             // } else {
             //     // This is a mouse wheel
             //     let strength = 1.4;
@@ -98,15 +100,15 @@ class App {
     onKeyDown(e){
             
             if(e.key == 'f') {
-                this.scene.getObjectByName('image').position.z -= 0.4;
+                this.image.position.z -= 0.4;
 
             }
             else if(e.key == 'n') {
-                this.scene.getObjectByName('image').position.z += 0.4;
+                this.image.position.z += 0.4;
         } else if(e.key == '0') {
-            this.scene.getObjectByName('image').material.rotation += 0.1;
+            this.image.material.rotation += 0.1;
         } else if(e.key == '1') {
-            this.scene.getObjectByName('image').material.rotation -= 0.1;
+            this.image.material.rotation -= 0.1;
         } 
 
 
@@ -115,17 +117,17 @@ class App {
     addDatGUI() {
         this.gui = new dat.GUI();
         var opacityFolder = this.gui.addFolder("Opacity");
-        opacityFolder.add(this.scene.getObjectByName('image').material,'opacity',0,1);
+        opacityFolder.add(this.image.material,'opacity',0,1);
 
         var scaleFolder = this.gui.addFolder("Scale");
-        scaleFolder.add(this.scene.getObjectByName('image').scale,'x',1,4);
+        scaleFolder.add(this.image.scale,'x',1,4);
 
-        scaleFolder.add(this.scene.getObjectByName('image').scale,'y',1,4);
+        scaleFolder.add(this.image.scale,'y',1,4);
 
-        this.scene.getObjectByName('image').updateMatrix();
+        this.image.updateMatrix();
 
         var rotationFolder = this.gui.addFolder("Rotation");
-        rotationFolder.add(this.scene.getObjectByName('image').material,'rotation',0,Math.PI*2);
+        rotationFolder.add(this.image.material,'rotation',0,Math.PI*2);
     }
 
     loadBackground = () => {
@@ -167,9 +169,9 @@ class App {
                     vec.sub( this.camera.position ).normalize();
                     var distance = - this.camera.position.z / vec.z;
                     pos.copy( this.camera.position ).add( vec.multiplyScalar( distance ) );
-                    this.scene.getObjectByName('image').position.set(pos.x,pos.y,this.scene.getObjectByName('image').position.z)
-                    this.scene.getObjectByName('image').updateMatrix();
-                    console.log(this.scene.getObjectByName('image').position)
+                    this.image.position.set(pos.x,pos.y,this.image.position.z)
+                    this.image.updateMatrix();
+                    console.log(this.image.position)
                     
             }
  
@@ -183,7 +185,7 @@ class App {
         
         this.raycaster.setFromCamera( this.mouse, this.camera );
 
-        var intersects = this.raycaster.intersectObject( this.scene.getObjectByName('image'));
+        var intersects = this.raycaster.intersectObject( this.image);
         if (intersects[0] )
         {   
             this.imageClicked = !this.imageClicked
