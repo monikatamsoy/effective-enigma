@@ -86,14 +86,14 @@ class App {
             ( e.changedTouches[0].clientX / window.innerWidth ) * 2 - 1,
             - ( e.changedTouches[0].clientY/ window.innerHeight ) * 2 + 1,
             1 );
+        console.log(vec)
+        vec.unproject( this.camera );
 
-        vec.unproject( camera );
+        vec.sub( this.camera.position ).normalize();
 
-        vec.sub( camera.position ).normalize();
+        var distance = - this.camera.position.z / vec.z;
 
-        var distance = - camera.position.z / vec.z;
-
-        pos.copy( camera.position ).add( vec.multiplyScalar( distance ) );
+        pos.copy( this.camera.position ).add( vec.multiplyScalar( distance ) );
         console.log(pos)
             }
     setupXR(){
