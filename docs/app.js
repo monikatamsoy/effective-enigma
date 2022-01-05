@@ -83,7 +83,8 @@ class App {
         let controller, controller1;
         
         function onSessionStart(){
-            self.castle.position.set(0,-1,-15)
+            self.castle.position.set(0,-1,-15);
+            self.image.position.set(4,0,-16)
             // self.camera.add( self.image );
         }
         
@@ -94,25 +95,8 @@ class App {
         const btn = new ARButton( this.renderer, { onSessionStart, onSessionEnd });//, sessionInit: { optionalFeatures: [ 'dom-overlay' ], domOverlay: { root: document.body } } } );
         
         this.gestures = new ControllerGestures( this.renderer );
-        // this.gestures.addEventListener( 'tap', (e)=>{
-        //     // //console.log( 'tap' ); 
-        //     // self.ui.updateElement('info', 'tap' );
-        //     // if (!self.knight.object.visible){
-        //     //     self.knight.object.visible = true;
-        //     //     self.knight.object.position.set( 0, -0.3, -0.5 ).add( ev.position );
-        //     //     self.scene.add( self.knight.object ); 
-        //     // }
-        // });
-        // this.gestures.addEventListener( 'doubletap', (ev)=>{
-        //     console.log( 'doubletap'); 
-        //     // self.ui.updateElement('info', 'doubletap' );
-        // });
-        // this.gestures.addEventListener( 'press', (ev)=>{
-        //     console.log( 'press' );    
-        //     // self.ui.updateElement('info', 'press' );
-        // });
         this.gestures.addEventListener( 'pan', (ev)=>{
-            console.log( ev );
+            // console.log( ev );
             if (ev.initialise !== undefined){
                 self.startPosition = self.image.position.clone();
             }else{
@@ -120,14 +104,7 @@ class App {
                 self.image.position.copy( pos );
             } 
         });
-        // this.gestures.addEventListener( 'swipe', (ev)=>{
-        //     console.log( ev );   
-        //     // self.ui.updateElement('info', `swipe ${ev.direction}` );
-        //     // if (self.knight.object.visible){
-        //     //     self.knight.object.visible = false;
-        //     //     self.scene.remove( self.knight.object ); 
-        //     // }
-        // });
+
         this.gestures.addEventListener( 'pinch', (ev)=>{
             //console.log( ev );  
             if (ev.initialise !== undefined){
