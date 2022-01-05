@@ -67,6 +67,7 @@ class App {
         document.addEventListener("touchmove",this.handleMove.bind(this),false)
         document.addEventListener("click", this.onMouseClick, false);
         window.addEventListener("keydown", this.onKeyDown.bind(this), false);
+        window.addEventListener("scroll",this.handleScroll.bind(this),false);
 
 	}	
 
@@ -76,6 +77,22 @@ class App {
         this.camera.updateProjectionMatrix();
         this.renderer.setSize( window.innerWidth, window.innerHeight );  
     }
+
+    handleScroll(e){
+        console.log(e)
+        var lastScrollTop = 0;
+        var st = window.pageYOffset || document.documentElement.scrollTop; 
+        if (st > lastScrollTop){
+            this.image.scale.x -=0.1;
+            this.image.scale.y -=0.1;
+
+        } else {
+            this.image.scale.x +=0.1;
+            this.image.scale.y +=0.1;
+
+        }
+        lastScrollTop = st <= 0 ? 0 : st;
+            }
 
     handleMove(e) {
         this.controls.enabled = false;
@@ -96,7 +113,7 @@ class App {
 
         pos.copy( this.camera.position ).add( vec.multiplyScalar( distance ) );
         this.image.position.set(pos.x,pos.y,pos.z);
-        
+
         console.log(pos)
             }
     setupXR(){
