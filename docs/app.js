@@ -298,7 +298,7 @@ class App {
                 self.castle = gltf.scene;
                 self.castle.rotateY(Math.PI/2)
                 // self.castle.scale.set(0.5,0.5,0.5)
-                self.castle.position.set(1,-3,-12)
+                self.castle.position.set(0.5,-3,-12)
                 
 				self.scene.add( self.castle );                
                 self.loadingBar.visible = false;         
