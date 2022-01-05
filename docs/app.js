@@ -78,8 +78,24 @@ class App {
     }
 
     handleMove(e) {
-        console.log(e)
-    }
+        console.log(e);
+        var vec = new THREE.Vector3(); // create once and reuse
+        var pos = new THREE.Vector3(); // create once and reuse
+
+        vec.set(
+            ( e.changedTouches[0].clientX / window.innerWidth ) * 2 - 1,
+            - ( e.changedTouches[0].clientY/ window.innerHeight ) * 2 + 1,
+            1 );
+
+        vec.unproject( camera );
+
+        vec.sub( camera.position ).normalize();
+
+        var distance = - camera.position.z / vec.z;
+
+        pos.copy( camera.position ).add( vec.multiplyScalar( distance ) );
+        console.log(pos)
+            }
     setupXR(){
         this.renderer.xr.enabled = true; 
         
@@ -87,8 +103,8 @@ class App {
         let controller, controller1;
         
         function onSessionStart(){
-            self.castle.position.set(0,-1,-15);
-            self.image.position.set(3,0,1)
+            self.castle.position.set(1,-1,-15);
+            self.image.position.set(8,0,1)
             // self.camera.add( self.image );
         }
         
@@ -282,7 +298,7 @@ class App {
                 self.castle = gltf.scene;
                 self.castle.rotateY(Math.PI/2)
                 // self.castle.scale.set(0.5,0.5,0.5)
-                self.castle.position.set(0,-3,-12)
+                self.castle.position.set(1,-3,-12)
                 
 				self.scene.add( self.castle );                
                 self.loadingBar.visible = false;         
