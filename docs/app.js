@@ -97,7 +97,7 @@ class App {
             pos.copy( this.camera.position ).add( vec.multiplyScalar( distance ) );
             this.image.position.set(pos.x,pos.y,pos.z);
     
-            this.controls.enabled = true;
+            
             }
     setupXR(){
         this.renderer.xr.enabled = true; 
