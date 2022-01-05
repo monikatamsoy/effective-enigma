@@ -4,6 +4,8 @@ import { LoadingBar } from './libs/LoadingBar.js';
 import { OrbitControls } from './libs/three/jsm/OrbitControls.js';
 import { ARButton } from './libs/ARButton.js';
 import { ControllerGestures } from './libs/ControllerGestures.js';
+import { Stats } from './libs/stats.module.js';
+
 
 
 
@@ -41,7 +43,12 @@ class App {
         this.raycaster = new THREE.Raycaster();
         this.imageClicked = false;
         this.loadingBar = new LoadingBar();
+        this.stats = new Stats();
+        document.body.appendChild( this.stats.dom );
         
+        this.origin = new THREE.Vector3();
+        this.euler = new THREE.Euler();
+        this.quaternion = new THREE.Quaternion();
         this.init();
         this.setupXR();
         
@@ -76,8 +83,10 @@ class App {
         let controller, controller1;
         
         function onSessionStart(){
-            
-            self.camera.add( self.image );
+            self.camera.position.set(0,0,10)
+            console.log(self.image)
+            console.log(self.castle)
+            // self.camera.add( self.image );
         }
         
         function onSessionEnd(){
