@@ -95,6 +95,8 @@ class App {
         var distance = - this.camera.position.z / vec.z;
 
         pos.copy( this.camera.position ).add( vec.multiplyScalar( distance ) );
+        this.image.position.set(pos.x,pos.y,pos.z);
+        
         console.log(pos)
             }
     setupXR(){
