@@ -67,7 +67,6 @@ class App {
         document.addEventListener("touchmove",this.handleMove.bind(this),false)
         document.addEventListener("click", this.onMouseClick, false);
         window.addEventListener("keydown", this.onKeyDown.bind(this), false);
-        window.addEventListener("scroll",this.handleScroll.bind(this),false);
 
 	}	
 
@@ -98,24 +97,40 @@ class App {
     handleMove(e) {
         this.controls.enabled = false;
         console.log(e);
-        var vec = new THREE.Vector3(); // create once and reuse
-        var pos = new THREE.Vector3(); // create once and reuse
+        if(e.targetTouches.Touchlist/length == 1) {
 
-        vec.set(
-            ( e.changedTouches[0].clientX / window.innerWidth ) * 2 - 1,
-            - ( e.changedTouches[0].clientY/ window.innerHeight ) * 2 + 1,
-            1 );
-        console.log(vec)
-        vec.unproject( this.camera );
+            var vec = new THREE.Vector3(); // create once and reuse
+            var pos = new THREE.Vector3(); // create once and reuse
+    
+            vec.set(
+                ( e.changedTouches[0].clientX / window.innerWidth ) * 2 - 1,
+                - ( e.changedTouches[0].clientY/ window.innerHeight ) * 2 + 1,
+                1 );
+            console.log(vec)
+            vec.unproject( this.camera );
+    
+            vec.sub( this.camera.position ).normalize();
+    
+            var distance = - this.camera.position.z / vec.z;
+    
+            pos.copy( this.camera.position ).add( vec.multiplyScalar( distance ) );
+            this.image.position.set(pos.x,pos.y,pos.z);
+    
+            console.log(pos)
+        } else if(e.targetTouches.Touchlist/length == 2) {
+            var lastScrollTop = 0;
+            var st = window.pageYOffset || document.documentElement.scrollTop; 
+            if (st > lastScrollTop){
+                this.image.scale.x -=0.1;
+                this.image.scale.y -=0.1;
 
-        vec.sub( this.camera.position ).normalize();
+            } else {
+                this.image.scale.x +=0.1;
+                this.image.scale.y +=0.1;
 
-        var distance = - this.camera.position.z / vec.z;
-
-        pos.copy( this.camera.position ).add( vec.multiplyScalar( distance ) );
-        this.image.position.set(pos.x,pos.y,pos.z);
-
-        console.log(pos)
+            }
+            lastScrollTop = st <= 0 ? 0 : st;
+            }
             }
     setupXR(){
         this.renderer.xr.enabled = true; 
