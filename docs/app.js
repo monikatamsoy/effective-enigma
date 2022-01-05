@@ -79,8 +79,6 @@ class App {
 
     handleMove(e) {
         this.controls.enabled = false;
-        console.log(e);
-        if(e.targetTouches.length == 1) {
 
             var vec = new THREE.Vector3(); // create once and reuse
             var pos = new THREE.Vector3(); // create once and reuse
@@ -99,18 +97,6 @@ class App {
             pos.copy( this.camera.position ).add( vec.multiplyScalar( distance ) );
             this.image.position.set(pos.x,pos.y,pos.z);
     
-            console.log(pos)
-        } else if(e.targetTouches.length == 2) {
-            var lastScrollTop = 0;
-            var st = window.pageYOffset || document.documentElement.scrollTop; 
-            if (st > lastScrollTop){
-                this.image.position.z -=0.1;
-
-            } else {
-                this.image.position.z +=0.1;
-            }
-            lastScrollTop = st <= 0 ? 0 : st;
-            }
             this.controls.enabled = true;
             }
     setupXR(){
@@ -223,6 +209,9 @@ class App {
 
         var rotationFolder = this.gui.addFolder("Rotation");
         rotationFolder.add(this.image.material,'rotation',0,Math.PI*2);
+
+        var distanceFolder = this.gui.addFolder("Distance");
+        distanceFolder.add(this.image.position,'z',-10,5);
     }
 
     loadBackground = () => {
