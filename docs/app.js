@@ -79,6 +79,7 @@ class App {
     }
 
     handleScroll(e){
+        this.controls.enabled = false;
         console.log(e)
         var lastScrollTop = 0;
         var st = window.pageYOffset || document.documentElement.scrollTop; 
