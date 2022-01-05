@@ -10,7 +10,6 @@ class App {
     constructor(){
 		const container = document.createElement( 'div' );
 		document.body.appendChild( container );
-        
 		this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 10000 );
 		this.camera.position.set( 0, 0.8, 7 );
         this.camera.lookAt(0,0,0)
@@ -40,18 +39,22 @@ class App {
         this.raycaster = new THREE.Raycaster();
         this.imageClicked = false;
         this.loadingBar = new LoadingBar();
-        this.mc = new Hammer(container);
+        
         this.init();
         
         this.controls = new OrbitControls( this.camera, this.renderer.domElement );
         this.controls.target.set(0, 0, 0);
+        this.controls.maxDistance = 100;
+        this.controls.minDistance = 5;
+        this.controls.minPolarAngle = 0; // radians
+        this.controls.maxPolarAngle = Math.PI/2; // radians
         this.controls.update();
 
-        this.mc.on("pinch", function(e) {
-            console.log(e.type)
-        });
+        
         window.addEventListener('resize', this.resize.bind(this) );
         document.addEventListener("mousemove", this.onMouseMove, false)
+        document.addEventListener("wheel", this.onWheel.bind(this), false)
+
         document.addEventListener("click", this.onMouseClick, false);
         window.addEventListener("keydown", this.onKeyDown.bind(this), false);
 
@@ -64,6 +67,46 @@ class App {
         this.renderer.setSize( window.innerWidth, window.innerHeight );  
     }
 
+    onWheel(e) {
+        if(this.imageClicked == true) {
+            this.controls.enableZoom = false;
+            console.log(e);
+            let scale = 1;
+            // This is crucial. Without it, the browser will do a full page zoom
+            // e.preventDefault();
+    
+            // This is an empirically determined heuristic.
+            // Unfortunately I don't know of any way to do this better.
+            // Typical deltaY values from a trackpad pinch are under 1.0
+            // Typical deltaY values from a mouse wheel are more than 100.
+            let isPinch = Math.abs(e.deltaY) < 50;
+    
+            if (isPinch) {
+                this.scene.getObjectByName('image').matrixAutoUpdate = false;
+
+                // scale += e.deltaY*2 * -0.05;
+                let factor = 1 - 1 * e.deltaY;
+                scale *= factor;
+
+                // Restrict scale
+                scale = Math.min(Math.max(.125, scale), 8);
+                this.scene.getObjectByName('image').scale.set(scale,scale,scale)
+                this.scene.getObjectByName('image').updateMatrix();
+                this.scene.getObjectByName('image').updateMatrixWorld();
+
+                
+                // this.scene.getObjectByName('image').scale(scale,scale,scale)
+            } else {
+                // This is a mouse wheel
+                let strength = 1.4;
+                let factor = e.deltaY < 0 ? strength : 1.0 / strength;
+                scale *= factor;
+                console.log("mouse wheel")
+              }
+        }
+        console.log(e)
+
+            }
 
     onKeyDown(e){
         
@@ -71,9 +114,13 @@ class App {
             // this.controls.enablePan = false
             if(e.key == 'f') {
                 this.scene.getObjectByName('image').position.z -= 0.4;
+                this.scene.getObjectByName('image').updateMatrix();
+
             }
             else if(e.key == 'n') {
                 this.scene.getObjectByName('image').position.z += 0.4;
+                this.scene.getObjectByName('image').updateMatrix();
+
             
                 
         }
@@ -86,16 +133,12 @@ class App {
         this.scene.add( axesHelper );  
         this.loadCastle();
         this.loadImage();
-
-        
-
-
     }
 
     onMouseMove = (e) => {
             if (this.imageClicked == true )
             {   
-                this.scene.getObjectByName('image').position.x = this.mouse.x;
+                // this.scene.getObjectByName('image').position.x = this.mouse.x;
                 var vec = new THREE.Vector3(); // create once and reuse
                 var pos = new THREE.Vector3(); // create once and reuse
                 
@@ -109,8 +152,12 @@ class App {
                     var distance = - this.camera.position.z / vec.z;
                     pos.copy( this.camera.position ).add( vec.multiplyScalar( distance ) );
                     this.scene.getObjectByName('image').position.set(pos.x,pos.y,this.scene.getObjectByName('image').position.z)
+                    this.scene.getObjectByName('image').updateMatrix();
+                    console.log(this.scene.getObjectByName('image').position)
                     
-            } 
+            }
+            console.log("mousemove",this.imageClicked)
+ 
     } 
     onMouseClick = (e) => {
         
@@ -125,6 +172,7 @@ class App {
         var intersects = this.raycaster.intersectObject( this.scene.getObjectByName('image'));
         if (intersects[0] )
         {   
+            console.log("mouseClick",this.imageClicked)
             this.imageClicked = !this.imageClicked
         } 
          
