@@ -78,25 +78,25 @@ class App {
     }
 
     handleMove(e) {
-        this.controls.enabled = false;
-
-            var vec = new THREE.Vector3(); // create once and reuse
-            var pos = new THREE.Vector3(); // create once and reuse
-    
-            vec.set(
-                ( e.changedTouches[0].clientX / window.innerWidth ) * 2 - 1,
-                - ( e.changedTouches[0].clientY/ window.innerHeight ) * 2 + 1,
-                1 );
+        
+        var vec = new THREE.Vector3(); // create once and reuse
+        var pos = new THREE.Vector3(); // create once and reuse
+        
+        vec.set(
+            ( e.changedTouches[0].clientX / window.innerWidth ) * 2 - 1,
+            - ( e.changedTouches[0].clientY/ window.innerHeight ) * 2 + 1,
+            1 );
             console.log(vec)
             vec.unproject( this.camera );
-    
+            
             vec.sub( this.camera.position ).normalize();
-    
+            
             var distance = - this.camera.position.z / vec.z;
-    
+            
             pos.copy( this.camera.position ).add( vec.multiplyScalar( distance ) );
             this.image.position.set(pos.x,pos.y,this.image.position.z);
-    
+            
+            this.controls.enabled = false;
             
             }
     setupXR(){
