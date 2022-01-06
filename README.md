@@ -1,4 +1,4 @@
-# effective-enigma
+# Image Overlay
 The web-app lets the user to trasform the image to overlay on the 3D model. 
 
 Load the url on the browser:[Github Page](https://monikatamsoy.github.io/effective-enigma/) and follow below events to transform the image: 
