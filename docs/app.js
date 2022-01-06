@@ -88,7 +88,9 @@ class App {
 
         if(intersects[0]) {
 
-            this.controls.enabled = false;
+            // this.controls.enabled = false;
+            this.controls.enableRotate = false;
+
             var vec = new THREE.Vector3(); // create once and reuse
             var pos = new THREE.Vector3(); // create once and reuse
             
@@ -106,9 +108,10 @@ class App {
                 pos.copy( this.camera.position ).add( vec.multiplyScalar( distance ) );
                 this.image.position.set(pos.x,pos.y,this.image.position.z);
                 
-        }
-        this.controls.enabled = true;
-            
+        } 
+        
+        this.controls.enableRotate = false;
+
             }
     setupXR(){
         this.renderer.xr.enabled = true; 
@@ -340,6 +343,7 @@ class App {
             this.gestures.update();
             
         }
+        this.stats.update();
         this.renderer.render( this.scene, this.camera );
     }
     
