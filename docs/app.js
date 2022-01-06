@@ -57,7 +57,7 @@ class App {
         this.controls.maxDistance = 10;
         this.controls.minDistance = 5;
         this.controls.minPolarAngle = 0; // radians
-        this.controls.maxPolarAngle = Math.PI/2; // radians
+        this.controls.maxPolarAngle = Math.PI/1.9; // radians
         this.controls.update();
 
         
@@ -280,7 +280,7 @@ class App {
 
 
     loadImage() {
-        const map = new THREE.TextureLoader().load( './assets/tower.png' );
+        const map = new THREE.TextureLoader().load( './assets/door.png' );
         const material = new THREE.SpriteMaterial( { map: map } );
 
         this.image = new THREE.Sprite( material );
