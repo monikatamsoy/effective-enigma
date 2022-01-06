@@ -67,6 +67,7 @@ class App {
         document.addEventListener("touchmove",this.handleMove.bind(this),false)
         document.addEventListener("click", this.onMouseClick, false);
         window.addEventListener("keydown", this.onKeyDown.bind(this), false);
+        // document.addEventListener('touchend', this.onTouchEnd.bind(this), false);
 
 	}	
 
@@ -77,26 +78,48 @@ class App {
         this.renderer.setSize( window.innerWidth, window.innerHeight );  
     }
 
+    onTouchEnd(e) {
+        event.preventDefault();
+
+        mouse.x = (event.changedTouches[0].clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.changedTouches[0].clientY / window.innerHeight) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(yourObject3D);
+    }
+
     handleMove(e) {
-        
-        var vec = new THREE.Vector3(); // create once and reuse
-        var pos = new THREE.Vector3(); // create once and reuse
-        
-        vec.set(
-            ( e.changedTouches[0].clientX / window.innerWidth ) * 2 - 1,
-            - ( e.changedTouches[0].clientY/ window.innerHeight ) * 2 + 1,
-            1 );
-            console.log(vec)
-            vec.unproject( this.camera );
-            
-            vec.sub( this.camera.position ).normalize();
-            
-            var distance = - this.camera.position.z / vec.z;
-            
-            pos.copy( this.camera.position ).add( vec.multiplyScalar( distance ) );
-            this.image.position.set(pos.x,pos.y,this.image.position.z);
-            
+
+        e.preventDefault();
+
+        this.mouse.x = (e.changedTouches[0].clientX / window.innerWidth) * 2 - 1;
+        this.mouse.y = -(e.changedTouches[0].clientY / window.innerHeight) * 2 + 1;
+
+        this.raycaster.setFromCamera(this.mouse, this.camera);
+        const intersects = this.raycaster.intersectObjects(this.image);
+
+        if(intersects[0]) {
+
             this.controls.enabled = false;
+            var vec = new THREE.Vector3(); // create once and reuse
+            var pos = new THREE.Vector3(); // create once and reuse
+            
+            vec.set(
+                ( e.changedTouches[0].clientX / window.innerWidth ) * 2 - 1,
+                - ( e.changedTouches[0].clientY/ window.innerHeight ) * 2 + 1,
+                1 );
+                console.log(vec)
+                vec.unproject( this.camera );
+                
+                vec.sub( this.camera.position ).normalize();
+                
+                var distance = - this.camera.position.z / vec.z;
+                
+                pos.copy( this.camera.position ).add( vec.multiplyScalar( distance ) );
+                this.image.position.set(pos.x,pos.y,this.image.position.z);
+                
+        }
+         
             
             }
     setupXR(){
