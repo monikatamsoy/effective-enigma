@@ -88,8 +88,7 @@ class App {
 
         if(intersects[0]) {
 
-            // this.controls.enabled = false;
-            this.controls.enableRotate = false;
+            this.controls.enabled = false;
 
             var vec = new THREE.Vector3(); // create once and reuse
             var pos = new THREE.Vector3(); // create once and reuse
