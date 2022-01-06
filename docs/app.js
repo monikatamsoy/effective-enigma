@@ -324,8 +324,9 @@ class App {
 			},
 			// called while loading is progressing
 			function ( xhr ) {
+                const total = 19821040;
 
-				self.loadingBar.progress = (xhr.loaded / xhr.total);
+				self.loadingBar.progress = (xhr.loaded / total);
 				
 			},
 			// called when loading has errors
