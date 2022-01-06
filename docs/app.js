@@ -95,7 +95,7 @@ class App {
             var distance = - this.camera.position.z / vec.z;
     
             pos.copy( this.camera.position ).add( vec.multiplyScalar( distance ) );
-            this.image.position.set(pos.x,pos.y,pos.z);
+            this.image.position.set(pos.x,pos.y,this.image.position.z);
     
             
             }
@@ -166,14 +166,6 @@ class App {
                 scale = Math.min(Math.max(.125, scale), 8);
                 this.image.scale.set(scale,scale,scale)
             }
-                
-                // this.image.scale(scale,scale,scale)
-            // } else {
-            //     // This is a mouse wheel
-            //     let strength = 1.4;
-            //     let factor = e.deltaY < 0 ? strength : 1.0 / strength;
-            //     scale *= factor;
-            //   }
         }
 
             }
