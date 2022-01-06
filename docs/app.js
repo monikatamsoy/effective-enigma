@@ -177,7 +177,7 @@ class App {
             if (isPinch) {
 
                 // scale += e.deltaY*2 * -0.05;
-                let factor = 1 - 1 * e.deltaY;
+                let factor = 1 - 0.5 * e.deltaY;
                 scale *= factor;
 
                 // Restrict scale
@@ -211,9 +211,9 @@ class App {
         opacityFolder.add(this.image.material,'opacity',0,1);
 
         var scaleFolder = this.gui.addFolder("Scale");
-        scaleFolder.add(this.image.scale,'x',1,4);
+        scaleFolder.add(this.image.scale,'x',-3,4);
 
-        scaleFolder.add(this.image.scale,'y',1,4);
+        scaleFolder.add(this.image.scale,'y',-3,4);
 
         this.image.updateMatrix();
 
