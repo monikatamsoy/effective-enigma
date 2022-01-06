@@ -67,7 +67,6 @@ class App {
         document.addEventListener("touchmove",this.handleMove.bind(this),false)
         document.addEventListener("click", this.onMouseClick, false);
         window.addEventListener("keydown", this.onKeyDown.bind(this), false);
-        // document.addEventListener('touchend', this.onTouchEnd.bind(this), false);
 
 	}	
 
@@ -78,16 +77,6 @@ class App {
         this.renderer.setSize( window.innerWidth, window.innerHeight );  
     }
 
-    onTouchEnd(e) {
-        event.preventDefault();
-
-        mouse.x = (event.changedTouches[0].clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(event.changedTouches[0].clientY / window.innerHeight) * 2 + 1;
-
-        raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(yourObject3D);
-    }
-
     handleMove(e) {
 
 
@@ -95,7 +84,7 @@ class App {
         this.mouse.y = -(e.changedTouches[0].clientY / window.innerHeight) * 2 + 1;
 
         this.raycaster.setFromCamera(this.mouse, this.camera);
-        const intersects = this.raycaster.intersectObjects(this.image);
+        const intersects = this.raycaster.intersectObject(this.image);
 
         if(intersects[0]) {
 
