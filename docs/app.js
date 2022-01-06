@@ -218,7 +218,7 @@ class App {
         this.image.updateMatrix();
 
         var rotationFolder = this.gui.addFolder("Rotation");
-        rotationFolder.add(this.image.material,'rotation',0,Math.PI*2);
+        rotationFolder.add(this.image.material,'rotation',-Math.PI,Math.PI);
 
         var distanceFolder = this.gui.addFolder("Distance");
         distanceFolder.add(this.image.position,'z',-10,5);
