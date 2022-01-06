@@ -110,7 +110,7 @@ class App {
                 
         } 
         
-        this.controls.enableRotate = false;
+        this.controls.enableRotate = true;
 
             }
     setupXR(){
