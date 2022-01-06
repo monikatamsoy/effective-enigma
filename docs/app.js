@@ -97,7 +97,7 @@ class App {
                 ( e.changedTouches[0].clientX / window.innerWidth ) * 2 - 1,
                 - ( e.changedTouches[0].clientY/ window.innerHeight ) * 2 + 1,
                 1 );
-                console.log(vec)
+                // console.log(vec)
                 vec.unproject( this.camera );
                 
                 vec.sub( this.camera.position ).normalize();
@@ -265,7 +265,7 @@ class App {
                     pos.copy( this.camera.position ).add( vec.multiplyScalar( distance ) );
                     this.image.position.set(pos.x,pos.y,this.image.position.z)
                     this.image.updateMatrix();
-                    console.log(this.image.position)
+                    // console.log(this.image.position)
                     
             }
  
