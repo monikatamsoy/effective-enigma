@@ -107,7 +107,7 @@ class App {
                 this.image.position.set(pos.x,pos.y,this.image.position.z);
                 
         }
-         
+        this.controls.enabled = true;
             
             }
     setupXR(){
