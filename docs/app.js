@@ -119,7 +119,7 @@ class App {
         
         function onSessionStart(){
             self.castle.position.set(1,-1,-15);
-            self.image.position.set(3,0,-1)
+            self.image.position.set(2,0,-1)
             // self.camera.add( self.image );
         }
         
@@ -294,7 +294,7 @@ class App {
         const material = new THREE.SpriteMaterial( { map: map } );
 
         this.image = new THREE.Sprite( material );
-        this.image.position.set(2,-2,1)
+        this.image.position.set(1,-2,1)
         this.image.name = "image"
         this.scene.add( this.image );
     }
