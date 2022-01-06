@@ -16,7 +16,8 @@ Load the url on the browser:[Github Page](https://monikatamsoy.github.io/effecti
   - Press '1' and '0' to rotate in positive and negative Z axis
   - use dat.GUI controls to rotate the image
 
-Immersive AR touch gestures:
+Click on the green button to start an immersive AR session
+AR touch gestures:
 - touch and move to reposition the image
 - pinch to scale
 - rotate two fingers touch to rotate the image
