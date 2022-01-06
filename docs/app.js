@@ -90,7 +90,6 @@ class App {
 
     handleMove(e) {
 
-        e.preventDefault();
 
         this.mouse.x = (e.changedTouches[0].clientX / window.innerWidth) * 2 - 1;
         this.mouse.y = -(e.changedTouches[0].clientY / window.innerHeight) * 2 + 1;
@@ -161,7 +160,7 @@ class App {
             }
         });
         this.gestures.addEventListener( 'rotate', (ev)=>{
-            //      sconsole.log( ev ); 
+            //      console.log( ev ); 
             if (ev.initialise !== undefined){
                 self.startQuaternion = self.image.quaternion.clone();
             }else{
@@ -169,7 +168,13 @@ class App {
                 self.image.material.rotation = ev.theta;
             }
         });
-        
+        this.gestures.addEventListener( 'tap', (ev)=>{
+            this.image.position.z -= 0.1;
+
+        });
+        this.gestures.addEventListener( 'doubletap', (ev)=>{
+            this.image.position.z += 0.1;
+        });
         this.renderer.setAnimationLoop( this.render.bind(this) );
     }
 
