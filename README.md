@@ -24,3 +24,7 @@ AR touch gestures:
 - single tap to move far(negative z)
 - double tap to move near(positive z)
  
+Here is a demo of the AR session on a OnePlus 7T mobile device: 
+
+https://user-images.githubusercontent.com/30457975/151306286-2bc1427f-52cd-4c70-a1da-6cab4c87ec03.mp4
+
